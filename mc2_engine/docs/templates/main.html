@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>SAMPLE SITE</title>
+
+<!-- <script src="{{context-path}}/js/pre-process.js"></script> -->
+
+<!-- REQUIRED: adds the framework lib resources (jquery, bootstrap, css and js) -->
+{{{main-libs}}}
+
+<link rel="stylesheet" type="text/css" href="{{context-path}}/css/hr3.css">
+<script src="{{context-path}}/js/hr3.js"></script>
+
+</head>
+<body>
+	<div class="container-fluid">
+		<nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header col-sm-2">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">Sample site</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav col-sm-8">
+						<!-- NAVIGATION ITEMS -->
+						<li>
+							<a href="section1">Section 1</a>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right col-sm-2">
+						<!-- USER DATA -->
+						<li>{{{user-data}}}</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<div class="main-container">
+
+			<!-- REQUIRED: a component with 'sidebar-content' id is required if the pagelayout defines a sidebar -->
+			<div id="sidebar-content" class="col-sm-2 well">
+				<!-- SIDEBAR ITEMS -->
+				<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+				<!-- Section 1 -->
+				<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+				<div class="list-group sections">
+					<span class="list-group-item list-group-item-heading">{{_labels.[sections]}}</span>
+
+					<a href="section1" class="list-group-item">Section 1</a>
+				</div>
+
+				<div class="list-group actions">
+					<span class="list-group-item list-group-item-heading">{{_labels.[actions]}}</span>
+
+					<a href="section1_list" class="list-group-item">List</a>
+					<a href="section1_list" class="list-group-item">Add</a>
+
+				</div>
+			</div>
+
+			<!-- REQUIRED: a component with 'main-content' id is required -->
+			<div class="col-sm-10">
+				<div id="alert_content"></div>
+				<div id="main-content">
+					<div class="jumbotron">
+						<h1>{{_labels.[branding.title]}}</h1>
+						<p>INSERT HERE YOUR WELCOME TEXT</p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+

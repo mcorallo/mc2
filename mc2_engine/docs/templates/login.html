@@ -1,0 +1,21 @@
+<html>
+<head>
+<title>Login Page</title>
+</head>
+<body>
+	aaa
+	<form action="{{context-path}}/login" method="post">
+		<p>
+			<label for="username">Username</label>
+			<input type="text" id="username" name="username" />
+		</p>
+		<p>
+			<label for="password">Password</label>
+			<input type="password" id="password" name="password" />
+		</p>
+		<input type="hidden" id="_csrf" name="{{csrf-name}}" value="{{csrf-token}}" />
+		<button type="submit" class="btn">Log in</button>
+	</form>
+
+</body>
+</html>

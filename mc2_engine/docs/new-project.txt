@@ -1,0 +1,14 @@
+1) nuovo maven project con dependency da engine
+2) nel web.xml
+		<context-param>
+			<param-name>it.mcsquared.engine.web.controllers.package</param-name>
+			<param-value>controllers</param-value>
+		</context-param> 
+		<context-param>
+			<param-name>conf.dir</param-name>
+			<param-value>conf</param-value>
+		</context-param> 
+3) creare login.html
+4) creare main.html
+5) js + css
+6) creare le pagine in WEB-INF/content ed aggiungere le sezioni al main.html
