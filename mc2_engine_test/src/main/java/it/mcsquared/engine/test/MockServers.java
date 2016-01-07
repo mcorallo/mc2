@@ -2,6 +2,7 @@ package it.mcsquared.engine.test;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.mockito.Matchers.*;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 import java.io.File;
@@ -63,7 +64,7 @@ public class MockServers {
 			WireMock.configureFor("localhost", port);
 			wireMockServer.start();
 			logger.debug("Mock HTTP server started at port {}", port);
-		} catch (Throwable e) {
+		} catch (Exception e) {
 
 			logger.error("Unable to start mock HTTP server at port {}", port, e);
 			throw e;
@@ -80,7 +81,7 @@ public class MockServers {
 			wireMockServer.stop();
 			wireMockServer = null;
 			logger.debug("Mock HTTP server stopped, port: {}", port);
-		} catch (Throwable e) {
+		} catch (Exception e) {
 
 			logger.error("Unable to stop mock HTTP server, port: {}", port, e);
 			throw e;
@@ -100,7 +101,7 @@ public class MockServers {
 
 			mailServer = SmtpServerFactory.startServer();
 			logger.debug("Mock SMTP server started at port {}", port);
-		} catch (Throwable e) {
+		} catch (Exception e) {
 
 			logger.error("Unable to start mock SMTP server at port {}", port, e);
 			throw e;
@@ -114,7 +115,7 @@ public class MockServers {
 			mailServer.stop();
 			logger.debug("Mock SMTP server stopped");
 			mailServer = null;
-		} catch (Throwable e) {
+		} catch (Exception e) {
 
 			logger.error("Unable to stop mock SMTP server", e);
 			throw e;

@@ -155,7 +155,7 @@ public class LabelsManager {
 					l = new PropertiesHandler((FileInputStream) stream);
 					labelsProperties.put(localeString, l);
 				}
-			} catch (Throwable e) {
+			} catch (Exception e) {
 				logger.error("", e);
 			}
 		}

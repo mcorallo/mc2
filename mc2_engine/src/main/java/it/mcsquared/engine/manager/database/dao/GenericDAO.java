@@ -77,7 +77,7 @@ public abstract class GenericDAO {
 				ts.add(t);
 			}
 			return ts;
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			logger.error("", e);
 			return null;
 		}
