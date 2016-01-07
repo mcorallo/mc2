@@ -22,6 +22,9 @@ This README would normally document whatever steps are necessary to get your app
 * Writing tests
 * Code review
 * Other guidelines
+** When writing java code:
+*** format the code before committing
+*** organize the imports before committing
 
 ### Who do I talk to? ###
 
