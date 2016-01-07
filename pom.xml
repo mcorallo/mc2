@@ -9,18 +9,6 @@
 		<module>mc2_engine_test</module>
 
 		<module>mc2_engine</module>
-
-		<module>mc2_engine_web</module><!-- engine -->
-		<module>mc2_engine_security</module><!-- engine -->
-
-		<module>mc2_engine_rest_client</module><!-- web -->
-		<module>mc2_engine_rest_server</module><!-- web + security -->
-
-		<module>mc2_engine_auth_server</module><!-- rest server -->
-		<module>mc2_engine_rest_browser</module><!-- rest client + server -->
-		
-		<module>mc2_engine_entity_generator</module><!-- rest server -->
-		<module>mc2_engine_generator_web</module><!-- web -->
 	</modules>
 
 	<dependencyManagement>
