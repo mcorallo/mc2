@@ -1,0 +1,63 @@
+############################
+0. REGISTRATION
+############################
+0.1. client registration
+	- POST /register
+		- json:
+			{
+			  "type":"push",
+			  "client_name":"aaa",
+			  "redirect_url":"http://localhost:8080/mc2_test_rest_service/rest/redirect",
+			  "client_description":"test desc",
+			  "client_url":"http://localhost:8080/mc2_test_rest_service/rest/redirect"
+			}
+	- return:
+		- client_id: same as client_name
+		- client_secret: generated
+	
+############################
+1. AUTHORIZATION
+############################
+1.1.1. authorization
+	- GET /auth: -> richiesta inviata a AUTH SERVER che genera un auth code e ritorna i dati al redirect_uri
+	- query params
+		- client_id
+		- redirect_uri
+		- response_type: code
+		- state: state
+	- return:
+		- auth code
+		
+1.1.2. token: authorization code
+	- POST /token: -> richiesta inviata a AUTH SERVER che verifica il codice e presenta un form di login e ritorna i dati al redirect_uri
+	- query params
+		- client_id
+		- client_secret
+		- redirect_uri
+		- grant_type: authorization_code
+		- code: code obtained at 1.1.1.
+	- return
+		- access token
+	- con il token posso fare richieste al resource owner
+
+1.2. token: resource owner credentials	
+	- POST /token: -> richiesta inviata a AUTH SERVER che verifica i dati e ritorna i dati al redirect_uri
+	- query params
+		- client_id
+		- client_secret
+		- redirect_uri
+		- grant_type: password
+		- username
+		- password
+	- return
+		- access token
+
+############################
+2. RESOURCE REQUEST		
+############################
+2.1.
+	- ANY /temp -> richiesta inviata al RESOURCE SERVER che verifica i dati e ritorn
+	- headers
+		- authorization: Bearer access token obtained at 1.
+	- return data
+		

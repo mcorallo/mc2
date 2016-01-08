@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Fri Oct 09 21:32:02 CEST 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0150-4e16-b580-0000076bcab0 
+on database directory memory:/home/projects/mc2/mc2/mc2_engine_web/testDB with class loader sun.misc.Launcher$AppClassLoader@42a57993 
+Loaded from file:/home/mcorallo/.m2/repository/org/apache/derby/derby/10.11.1.1/derby-10.11.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_51-b16
+user.dir=/home/projects/mc2/mc2/mc2_engine_web
+os.name=Linux
+os.arch=amd64
+os.version=3.19.0-30-generic
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

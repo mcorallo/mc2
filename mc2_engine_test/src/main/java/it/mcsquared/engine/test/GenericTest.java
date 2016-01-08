@@ -1,5 +1,7 @@
 package it.mcsquared.engine.test;
 
+import it.mcsquared.engine.test.PrivateMethodDetails.PrivateMethodParam;
+
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -8,7 +10,6 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.rules.TestWatcher;
@@ -17,22 +18,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.subethamail.wiser.Wiser;
 
-import it.mcsquared.engine.test.PrivateMethodDetails.PrivateMethodParam;
-
 public class GenericTest {
 	private static final String APP_NAME = "test";
 	private static Logger logger;
 	private static Object engine;
 	protected static String confDir;
 	protected static String sqliteDbFile;
-	protected static String testRootPath = null;
 
 	protected Wiser mailServer;
 
-	@BeforeClass
-	public static void setupClass() throws Exception {
-		String mc2EngineTestPath = null;
-		if (testRootPath == null) {
+	static {
+		try {
 			String parentTarget = System.getProperty("parent.target.dir");
 			String relativePath;
 			if (parentTarget == null) {
@@ -40,20 +36,20 @@ public class GenericTest {
 			} else {
 				relativePath = "../../";
 			}
-			mc2EngineTestPath = new File(parentTarget, relativePath + "mc2_engine_test").getAbsolutePath();
+			String mc2EngineTestPath = new File(parentTarget, relativePath + "mc2_engine_test").getAbsolutePath();
+			System.err.println(mc2EngineTestPath);
 			confDir = mc2EngineTestPath + "/src/main/resources/conf";
-		} else {
-			confDir = "src/test/resources/conf";
+			sqliteDbFile = confDir + "/../temp.sqlite";
+			System.setProperty("test.db.file", sqliteDbFile);
+
+			Class<?> mc2EngineClass = Class.forName("it.mcsquared.engine.Mc2Engine");
+			Method initMethod = mc2EngineClass.getMethod("init", String.class, String.class);
+			engine = initMethod.invoke(null, APP_NAME, confDir);
+
+			logger = LoggerFactory.getLogger(GenericTest.class);
+		} catch (Throwable e) {
+			throw new RuntimeException(e);
 		}
-		System.err.println("confDir: " + confDir);
-		sqliteDbFile = confDir + "/../temp.sqlite";
-		System.setProperty("test.db.file", sqliteDbFile);
-
-		Class<?> mc2EngineClass = Class.forName("it.mcsquared.engine.Mc2Engine");
-		Method initMethod = mc2EngineClass.getMethod("init", String.class, String.class);
-		engine = initMethod.invoke(null, APP_NAME, confDir);
-
-		logger = LoggerFactory.getLogger(GenericTest.class);
 	}
 
 	@Rule
