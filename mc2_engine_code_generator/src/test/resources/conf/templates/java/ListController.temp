@@ -1,0 +1,25 @@
+package {{package}};
+
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import it.mcsquared.engine.web.controller.AjaxResult;
+import it.mcsquared.engine.web.controller.GenericController;
+
+public class {{className}} extends GenericController {
+	private static final Logger logger = LoggerFactory.getLogger({{className}}.class);
+
+	@Override
+	protected AjaxResult processAjaxRequest(String command, HttpServletRequest req) throws Exception {
+		if ("client.delete".equals(command)) {
+			Thread.sleep(1000);
+			String id = req.getParameter("id");
+			return getSuccessResult();
+		}
+		return null;
+	}
+
+}

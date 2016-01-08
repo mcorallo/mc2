@@ -24,16 +24,9 @@ public class JsonUtils {
 	public static final String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
 	public static String toJson(Object object) {
-		return toJson(object, false);
-	}
-
-	public static String toJson(Object object, boolean prettyPrint) {
 		GsonBuilder gb = new GsonBuilder();
 		gb.registerTypeAdapter(Timestamp.class, new DateTimeTypeAdapter());
 		gb.registerTypeAdapter(Date.class, new DateTypeAdapter());
-		if (prettyPrint) {
-			gb.setPrettyPrinting();
-		}
 		return gb.create().toJson(object);
 	}
 
@@ -73,7 +66,7 @@ public class JsonUtils {
 
 		private DateTimeTypeAdapter() {
 			dateTimeFormat = new SimpleDateFormat(DATETIME_FORMAT, Locale.US);
-			//			dateTimeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+//			dateTimeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 		}
 
 		@Override

@@ -1,8 +1,6 @@
 package it.mcsquared.engine.manager;
 
 import java.io.FileInputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
@@ -15,8 +13,6 @@ public class PropertiesHandler {
 
 	private PropertiesConfiguration conf;
 	private static String env;
-
-	private Map<String, String> allProperties;
 
 	/**
 	 * Loads a properties file from the given stream and wraps the object with utility methods.
@@ -80,18 +76,5 @@ public class PropertiesHandler {
 
 	public static void setEnv(String env) {
 		PropertiesHandler.env = env;
-	}
-
-	@SuppressWarnings("serial")
-	public Map<String, String> getAll() {
-		if (allProperties == null) {
-			allProperties = new HashMap<String, String>() {
-				@Override
-				public String get(Object key) {
-					return getProperty((String) key);
-				}
-			};
-		}
-		return allProperties;
 	}
 }

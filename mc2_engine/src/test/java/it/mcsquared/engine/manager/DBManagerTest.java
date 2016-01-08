@@ -1,24 +1,21 @@
 package it.mcsquared.engine.manager;
 
 import static org.junit.Assert.*;
+import it.mcsquared.engine.EngineTest;
+import it.mcsquared.engine.manager.database.NoSingleResultException;
+import it.mcsquared.engine.manager.database.QueryBuilder;
+import it.mcsquared.engine.manager.database.QueryHelper;
+import it.mcsquared.engine.manager.database.Record;
 
 import java.util.List;
 
 import org.junit.Test;
 
-import it.mcsquared.engine.Mc2Engine;
-import it.mcsquared.engine.manager.database.NoSingleResultException;
-import it.mcsquared.engine.manager.database.QueryBuilder;
-import it.mcsquared.engine.manager.database.QueryHelper;
-import it.mcsquared.engine.manager.database.Record;
-import it.mcsquared.engine.test.GenericTest;
-
-public class DBManagerTest extends GenericTest {
+public class DBManagerTest extends EngineTest {
 
 	private static final String TESTDB = "testdb";
 
 	private DBManager dbManager;
-	private Mc2Engine engine = getEngine();
 
 	@Test
 	public void simpleQueryTest() throws Exception {
@@ -72,8 +69,8 @@ public class DBManagerTest extends GenericTest {
 		QueryHelper qh = dbManager.getQueryHelper(TESTDB);
 		QueryBuilder qb = new QueryBuilder();
 		qb.addToken("create table test1 (");
-		qb.addToken("	ID		INTEGER				NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),");
-		qb.addToken("	NAME    VARCHAR(255)		NOT NULL");
+		qb.addToken("	ID		INTEGER		PRIMARY KEY AUTOINCREMENT,");
+		qb.addToken("	NAME    TEXT		NOT NULL");
 		qb.addToken(")");
 		qh.executeUpdate(qb);
 
@@ -86,7 +83,7 @@ public class DBManagerTest extends GenericTest {
 	protected void localTearDown() throws Exception {
 		QueryHelper qh = dbManager.getQueryHelper(TESTDB);
 		QueryBuilder qb = new QueryBuilder();
-		qb.addToken("drop table test1");
+		qb.addToken("drop table if exists test1");
 		qh.executeUpdate(qb);
 	}
 }

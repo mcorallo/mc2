@@ -1,5 +1,7 @@
 package it.mcsquared.engine.manager;
 
+import it.mcsquared.engine.Mc2Engine;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -10,8 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import it.mcsquared.engine.Mc2Engine;
 
 public class LabelsManager {
 	private static final Logger logger = LoggerFactory.getLogger(LabelsManager.class);
@@ -44,17 +44,16 @@ public class LabelsManager {
 			label = l.getProperty(key);
 		}
 
-		if (label == null && !locale.toString().equals(DEFAULT_LOCALE_STRING)) {
+		if (label == null && !locale.equals(DEFAULT_LOCALE_STRING)) {
 			// if the label is not found in the required language, returns the label for the default one
 			l = labelsProperties.get(DEFAULT_LOCALE_STRING);
 			label = l.getProperty(key);
 		}
-
 		return label;
 	}
 
 	public String getLabelFormatted(String key, Object... params) {
-		return String.format(locale, get(key), params);
+		return String.format(get(key), params);
 	}
 
 	public String get(String key) {
@@ -134,18 +133,6 @@ public class LabelsManager {
 		}
 	}
 
-	@SuppressWarnings("serial")
-	public Map<String, String> getLabels() {
-		Map<String, String> result = new HashMap<String, String>() {
-			@Override
-			public String get(Object key) {
-				return getLabel(locale.toString(), (String) key);
-			}
-		};
-
-		return result;
-	}
-
 	private PropertiesHandler getLabels(String localeString) {
 		PropertiesHandler l = labelsProperties.get(localeString);
 		if (l == null) {
@@ -155,7 +142,7 @@ public class LabelsManager {
 					l = new PropertiesHandler((FileInputStream) stream);
 					labelsProperties.put(localeString, l);
 				}
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				logger.error("", e);
 			}
 		}

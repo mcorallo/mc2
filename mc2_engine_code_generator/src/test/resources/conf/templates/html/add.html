@@ -1,0 +1,43 @@
+<h3 class="content-title" class="content-title">##@_labels.[{{tableName}}.add]@##</h3>
+
+<form id="{{tableName}}-add-form" class="form-horizontal well">
+	<fieldset>
+		{{#addFields}}
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="{{name}}">##@_labels.[{{label}}]@##</label>
+			<div class="col-sm-9">{{{content}}}</div>
+		</div>
+		{{/addFields}}
+
+		<!-- PULSANTI -->
+		<div class="form-group">
+			<div class="col-sm-offset-3 col-sm-9">
+				<button id="btn-add" class="btn btn-primary">##@_labels.[save]@##</button>
+				<button id="btn-cancel" class="btn btn-default">##@_labels.[cancel]@##</button>
+			</div>
+		</div>
+
+	</fieldset>
+</form>
+
+
+<script>
+	$(function() {
+
+		$('#btn-cancel').click(function(e) {
+			e.preventDefault();
+			$('form')[0].reset();
+			mc2Engine.router.go('{{tableName}}/list');
+		});
+
+		$('#btn-add').click(function(e) {
+			e.preventDefault();
+			mc2Engine.validator.submitForm('{{tableName}}-add-form', '{{tableName}}.add', function(data) {
+				var name = data.content;
+				var msg = "##@_labels.[{{tableName}}.add.success]@##";
+				mc2Engine.alerter.addSuccessAlert(msg, true);
+				mc2Engine.router.go('{{tableName}}.list');
+			});
+		});
+	});
+</script>

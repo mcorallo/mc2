@@ -1,0 +1,24 @@
+package {{adapterPackageName}};
+
+import org.apache.commons.lang3.text.WordUtils;
+
+import it.mcsquared.engine.web.adapter.GenericAdapter;
+
+public class Adapters {
+
+	private static final String IMPLEMENTATION = "fake"; //"rest"
+
+	@SuppressWarnings("unchecked")
+	public static <T extends GenericAdapter> T newAdapter(Class<? extends GenericAdapter> adapterInterface) {
+		String name = adapterInterface.getSimpleName() + WordUtils.capitalize(IMPLEMENTATION);
+		try {
+			return (T) Class.forName("{{adapterPackageName}}." + IMPLEMENTATION + "." + name).newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+}
+
+
+

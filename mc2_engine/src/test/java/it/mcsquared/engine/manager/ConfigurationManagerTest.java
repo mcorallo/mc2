@@ -1,6 +1,7 @@
 package it.mcsquared.engine.manager;
 
 import static org.junit.Assert.*;
+import it.mcsquared.engine.EngineTest;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,11 +9,7 @@ import java.io.FileInputStream;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-import it.mcsquared.engine.Mc2Engine;
-import it.mcsquared.engine.test.GenericTest;
-
-public class ConfigurationManagerTest extends GenericTest {
-	private Mc2Engine engine = getEngine();
+public class ConfigurationManagerTest extends EngineTest {
 
 	@Test
 	public void getFileTest() throws Exception {

@@ -1,5 +1,10 @@
 package it.mcsquared.engine.manager;
 
+import it.mcsquared.engine.Mc2Engine;
+import it.mcsquared.engine.manager.database.ConnectionPool;
+import it.mcsquared.engine.manager.database.DBConfiguration;
+import it.mcsquared.engine.manager.database.QueryHelper;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
@@ -10,11 +15,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import it.mcsquared.engine.Mc2Engine;
-import it.mcsquared.engine.manager.database.ConnectionPool;
-import it.mcsquared.engine.manager.database.DBConfiguration;
-import it.mcsquared.engine.manager.database.QueryHelper;
 
 public class DBManager {
 	private static Logger logger = LoggerFactory.getLogger(DBManager.class);
@@ -58,7 +58,7 @@ public class DBManager {
 	}
 
 	public QueryHelper getQueryHelper(String db) throws SQLException {
-		return new QueryHelper(pools.get(db), false, logQueries, dbConfigs.get(db).getDialect());
+		return new QueryHelper(pools.get(db), false, logQueries);
 	}
 
 	//
@@ -67,7 +67,7 @@ public class DBManager {
 	//	}
 
 	public QueryHelper getTransactionQueryHelper(String db) throws SQLException {
-		return new QueryHelper(pools.get(db), true, logQueries, dbConfigs.get(db).getDialect());
+		return new QueryHelper(pools.get(db), true, logQueries);
 	}
 
 	//
@@ -91,9 +91,5 @@ public class DBManager {
 
 	public void setLogQueries(boolean logQueries) {
 		this.logQueries = logQueries;
-	}
-
-	public Map<String, DBConfiguration> getDbConfigs() {
-		return dbConfigs;
 	}
 }

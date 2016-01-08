@@ -16,7 +16,6 @@ public abstract class Constants {
 
 	public interface ApplicationAttributes {
 		public static final String APP_LABELS_MANAGER = "appLabels";
-		public static final String ONE_PERMANENT_SESSION = "ONE_PERMANENT_SESSION";
 	}
 
 	public interface SessionAttributes {

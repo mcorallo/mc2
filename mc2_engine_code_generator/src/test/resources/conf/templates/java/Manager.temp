@@ -1,0 +1,50 @@
+package {{package}};
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.JsonObject;
+
+import it.mcsquared.engine.web.controller.data.TableCounts;
+import it.mcsquared.engine.web.controller.data.TableDataRequest;
+import it.mcsquared.engine.web.controller.data.TableRecords;
+import it.mcsquared.engine.web.controller.data.annotation.RecordsProvider;
+import it.mcsquared.engine.web.controller.data.annotation.TableOptions;
+import it.mcsquared.engine.web.controller.data.annotation.TableProvider;
+import {{adapters.package}}.Adapters;
+import {{adapters.package}}.{{adapter}};
+
+@TableProvider
+public class {{className}} {
+
+	@TableOptions
+	TableDataRequest tableDataRequest;
+
+	private {{adapter}} adapter = Adapters.new{{modelClassName}}Adapter();
+
+	@RecordsProvider(command = "{{tableName}}.search", requestParameters = { {{searchRequestParameters}} })
+	public TableRecords search({{searchRequestArguments}}) throws Exception {
+		TableRecords tr = new TableRecords();
+		List<JsonObject> result = adapter.search({{searchRequestCallArguments}});
+
+		String searchValue = tableDataRequest.getSearchValue();
+		List<JsonObject> searchedResult = new ArrayList<>();
+		if (searchValue != null && !searchValue.isEmpty()) {
+			for (JsonObject j : result) {
+				if (j.toString().toLowerCase().contains(searchValue.toLowerCase())) {
+					searchedResult.add(j);
+				}
+			}
+		} else {
+			searchedResult = result;
+		}
+
+		tr.setRecords(searchedResult);
+		TableCounts counts = adapter.count{{modelClassName}}(path);
+		counts.setTotFiltered(counts.getTotFiltered() - (result.size() - searchedResult.size()));
+		tr.setCounts(counts);
+
+		return tr;
+	}
+}
+

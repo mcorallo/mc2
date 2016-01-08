@@ -1,0 +1,22 @@
+package {{package}};
+
+{{#imports}}
+import {{.}};
+{{/imports}}
+
+import java.util.List;
+
+public class {{className}} extends GenericDAO {
+
+	public List<{{modelClassName}}> list(TableDataRequest tdr) throws Throwable {
+		return super.selectRecords({{modelClassName}}.class, tdr.getStart(), tdr.getLength(), tdr.getFilters());
+	}
+
+	public long getTotRecords(TableDataRequest tdr) throws Throwable {
+		return super.getTotRecords({{modelClassName}}.class);
+	}
+
+	public long getFilteredRecords(TableDataRequest tdr) throws Throwable {
+		return super.getFilteredRecords({{modelClassName}}.class, tdr.getFilters());
+	}
+}

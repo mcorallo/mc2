@@ -1,19 +1,16 @@
 package it.mcsquared.engine.manager;
 
 import static org.junit.Assert.*;
+import it.mcsquared.engine.EngineTest;
+import it.mcsquared.engine.manager.email.Email;
+import it.mcsquared.engine.test.PrivateMethodDetails;
 
 import java.util.Arrays;
 
 import org.junit.Test;
 import org.subethamail.wiser.WiserMessage;
 
-import it.mcsquared.engine.Mc2Engine;
-import it.mcsquared.engine.manager.email.Email;
-import it.mcsquared.engine.test.GenericTest;
-import it.mcsquared.engine.test.PrivateMethodDetails;
-
-public class MailManagerTest extends GenericTest {
-	private Mc2Engine engine = getEngine();
+public class MailManagerTest extends EngineTest {
 
 	@Test
 	public void sendEmailTest() throws Exception {

@@ -1,0 +1,26 @@
+package {{adapterPackageName}};
+
+import java.util.List;
+
+import it.mcsquared.engine.web.adapter.GenericAdapter;
+import it.mcsquared.engine.web.controller.data.table.TableCounts;
+import it.mcsquared.engine.web.controller.data.table.TableDataRequest;
+import {{modelPackageName}}.{{modelClassName}};
+
+public abstract class {{modelClassName}}Adapter extends GenericAdapter {
+
+	public abstract List<{{modelClassName}}> search({{modelClassName}} templateInstance, TableDataRequest tableDataRequest) throws Exception;
+
+	public abstract TableCounts count({{modelClassName}} templateInstance) throws Exception;
+
+	public abstract {{modelClassName}} get(String id) throws Exception;
+
+	public abstract boolean add({{modelClassName}} instance) throws Exception;
+
+	public abstract {{modelClassName}} edit({{modelClassName}} instance) throws Exception;
+
+	public abstract boolean delete(String id) throws Exception;
+
+}
+
+

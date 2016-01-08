@@ -1,0 +1,26 @@
+profiles:
+  - name: p1
+    description: rest.client
+    rules:
+      - name: deny.admin
+        type: area
+        value: administration
+        access: none
+      - name: deny.reports
+        type: area
+        value: reports
+        access: full
+#      - name: deny.new
+#        type: page
+#        value: client/new
+#        access: none
+
+users:
+  - username: _FIXED
+    defaultAccess: FULL
+    profiles:
+      - p1
+      
+    
+    
+    

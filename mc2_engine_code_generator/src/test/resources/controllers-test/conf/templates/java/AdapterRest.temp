@@ -1,0 +1,96 @@
+package {{adapterPackageName}}.rest;
+
+import java.util.List;
+
+import javax.ws.rs.core.Response.Status;
+
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+
+import it.mcsquared.engine.web.controller.data.table.TableDataRequest;
+import it.mcsquared.engine.rest.client.RestClient;
+import it.mcsquared.engine.rest.client.RestRequest;
+import it.mcsquared.engine.rest.client.RestRequest.HttpMethod;
+import it.mcsquared.engine.rest.client.RestRequest.RestRequestBuilder;
+import it.mcsquared.engine.rest.client.RestResponse;
+import it.mcsquared.engine.util.JsonUtils;
+import it.mcsquared.engine.web.controller.data.table.TableCounts;
+import {{modelPackageName}}.{{modelClassName}};
+import {{adapterPackageName}}.{{modelClassName}}Adapter;
+
+public class {{modelClassName}}AdapterRest extends {{modelClassName}}Adapter {
+
+	@Override
+	public List<{{modelClassName}}> search({{modelClassName}} templateInstance, TableDataRequest tableDataRequest) throws Exception {
+		RestRequestBuilder builder = new RestRequestBuilder(HttpMethod.GET, restServiceBaseUrl);
+		builder.pathSegment("requests");
+		builder.queryParameter("templateInstance", JsonUtils.toJson(templateInstance));
+		builder.tableDataRequest(tableDataRequest);
+		RestRequest rr = builder.build();
+		RestResponse response = RestClient.executeRestRequest(rr);
+		String serializedEntity = response.getSerializedEntity();
+		@SuppressWarnings("serial")
+		List<{{modelClassName}}> result = new Gson().fromJson(serializedEntity, new TypeToken<List<{{modelClassName}}>>() {
+		}.getType());
+		return result;
+	}
+
+	@Override
+	public TableCounts count({{modelClassName}} templateInstance) throws Exception {
+		RestRequestBuilder builder = new RestRequestBuilder(HttpMethod.GET, restServiceBaseUrl);
+		builder.pathSegment("requests");
+		builder.queryParameter("templateInstance", JsonUtils.toJson(templateInstance));
+		builder.queryParameter("count", "true");
+
+		RestRequest rr = builder.build();
+		RestResponse response = RestClient.executeRestRequest(rr);
+		String serializedEntity = response.getSerializedEntity();
+		TableCounts result = new Gson().fromJson(serializedEntity, TableCounts.class);
+		return result;
+	}
+
+	@Override
+	public boolean add({{modelClassName}} instance) throws Exception {
+		RestRequestBuilder builder = new RestRequestBuilder(HttpMethod.POST, restServiceBaseUrl);
+		builder.pathSegment("requests");
+		builder.body(instance);
+
+		RestRequest rr = builder.build();
+		RestResponse response = RestClient.executeRestRequest(rr);
+		return response.getStatusCode() == Status.OK.getStatusCode();
+	}
+
+	@Override
+	public {{modelClassName}} edit({{modelClassName}} instance) throws Exception {
+		RestRequestBuilder builder = new RestRequestBuilder(HttpMethod.PUT, restServiceBaseUrl);
+		builder.pathSegment("requests");
+		builder.body(instance);
+
+		RestRequest rr = builder.build();
+		RestResponse response = RestClient.executeRestRequest(rr);
+		return new Gson().fromJson(response.getSerializedEntity(), {{modelClassName}}.class);
+	}
+
+	@Override
+	public {{modelClassName}} get(String id) throws Exception {
+		RestRequestBuilder builder = new RestRequestBuilder(HttpMethod.PUT, restServiceBaseUrl);
+		builder.pathSegment("requests");
+		builder.pathSegment(id);
+
+		RestRequest rr = builder.build();
+		RestResponse response = RestClient.executeRestRequest(rr);
+		return new Gson().fromJson(response.getSerializedEntity(), {{modelClassName}}.class);
+	}
+
+	@Override
+	public boolean delete(String id) throws Exception {
+		RestRequestBuilder builder = new RestRequestBuilder(HttpMethod.DELETE, restServiceBaseUrl);
+		builder.pathSegment("requests");
+		builder.pathSegment(id);
+
+		RestRequest rr = builder.build();
+		RestResponse response = RestClient.executeRestRequest(rr);
+		return response.getStatusCode() == Status.OK.getStatusCode();
+	}
+
+}

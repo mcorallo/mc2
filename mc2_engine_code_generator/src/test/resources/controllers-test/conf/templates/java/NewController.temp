@@ -1,0 +1,45 @@
+package {{controllerPackageName}}.{{tableName}};
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.gson.JsonObject;
+
+import it.mcsquared.engine.web.controller.AjaxResult;
+import it.mcsquared.engine.web.controller.GenericController;
+import it.mcsquared.engine.web.controller.RequestUtils;
+
+import {{modelPackageName}}.{{modelClassName}};
+import {{managerPackageName}}.{{modelClassName}}Manager;
+
+public class NewController extends GenericController {
+	private static final Logger logger = LoggerFactory.getLogger(NewController.class);
+
+	private {{modelClassName}}Manager manager = new {{modelClassName}}Manager();
+
+	@Override
+	public boolean processBeforeLoad(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		return true;
+	}
+
+	@Override
+	protected AjaxResult processAjaxRequest(String command, HttpServletRequest req) throws Exception {
+		if ("{{tableName}}.add".equals(command)) {
+			{{modelClassName}} instance = buildInstance(req);
+			manager.add(instance);
+			return getSuccessResult();
+		}
+		return null;
+	}
+
+	private {{modelClassName}} buildInstance(HttpServletRequest req) {
+		{{modelClassName}} formBean = new {{modelClassName}}();
+		RequestUtils.populateBean(formBean, req);
+		return formBean;
+	}
+}

@@ -1,0 +1,34 @@
+items:
+- section: one
+  label: label.one
+  page: client/list
+  subMenu: true
+  sections:
+  - section: one
+    label: label.one
+    page: client/new
+    actions:
+    - action: list
+      section: one
+      label: list
+      page: client/list
+    - action: new
+      section: one
+      label: new
+      page: client/new
+- section: two
+  label: label.two
+  page: client/list
+  sections:
+  - section: two
+    label: label.two
+    page: client/list
+    actions:
+    - action: list
+      section: two
+      label: list
+      page: client/list
+    - action: new
+      section: two
+      label: new
+      page: client/new

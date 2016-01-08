@@ -24,12 +24,10 @@ public class QueryHelper {
 	private boolean transaction;
 
 	private String dbName;
-	private String dialect;
 	private boolean logQueries = false;
 
-	public QueryHelper(ConnectionPool pool, boolean transaction, boolean logQueries, String dialect) throws SQLException {
+	public QueryHelper(ConnectionPool pool, boolean transaction, boolean logQueries) throws SQLException {
 		this.logQueries = logQueries;
-		this.dialect = dialect;
 		this.dbName = pool.getName();
 		this.pool = pool;
 		this.transaction = transaction;
@@ -371,13 +369,5 @@ public class QueryHelper {
 			// sb.append("[").append(Thread.currentThread().getId()).append(" - ").append(queryBuilder.hashCode()).append("] query result: ").append(result);
 			// logger.debug(sb.toString());
 		}
-	}
-
-	public String getDialect() {
-		return dialect;
-	}
-
-	public void setDialect(String dialect) {
-		this.dialect = dialect;
 	}
 }

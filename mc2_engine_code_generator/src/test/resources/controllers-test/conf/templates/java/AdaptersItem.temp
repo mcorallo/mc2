@@ -1,0 +1,3 @@
+	public static {{modelClassName}}Adapter new{{modelClassName}}Adapter() {
+		return new {{modelClassName}}AdapterRest();
+	}

@@ -8,4 +8,6 @@ public @interface Column {
 
 	String name();
 
+	String type();
+
 }

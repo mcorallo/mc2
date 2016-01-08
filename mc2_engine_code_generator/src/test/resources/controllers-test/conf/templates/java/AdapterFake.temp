@@ -1,0 +1,94 @@
+package {{adapterPackageName}}.fake;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+
+import it.mcsquared.engine.manager.database.Record;
+import it.mcsquared.engine.web.controller.data.table.TableDataRequest;
+import it.mcsquared.engine.web.controller.data.table.TableCounts;
+import {{modelPackageName}}.{{modelClassName}};
+import {{adapterPackageName}}.{{modelClassName}}Adapter;
+
+public class {{modelClassName}}AdapterFake extends {{modelClassName}}Adapter {
+
+	private static final int RESULTS_COUNT = 100;
+
+	@Override
+	public List<{{modelClassName}}> search({{modelClassName}} templateInstance, TableDataRequest tableDataRequest) throws Exception {
+		Integer start = tableDataRequest.getStart();
+		Integer length = tableDataRequest.getLength();
+		Integer end = start + length;
+
+		List<Record> cellsList = new ArrayList<>();
+		for (int i = start; (i < RESULTS_COUNT && i < end); i++) {
+			Record r = new Record();
+			Map<String, Object> cells = r.getCells();
+			{{#modelFields}}cells.put("{{.}}","{{.}}-value-" + i);
+			{{/modelFields}}
+
+			cellsList.add(r);
+		}
+
+		final String sortKey = tableDataRequest.getSortKey();
+		if (sortKey != null) {
+			String sortDir = tableDataRequest.getSortDir();
+			Collections.sort(cellsList, new Comparator<Record>() {
+
+				@SuppressWarnings({ "rawtypes", "unchecked" })
+				@Override
+				public int compare(Record o1, Record o2) {
+					if (o2 == null) {
+						return -1;
+					}
+					if (o1 == null) {
+						return 1;
+					}
+
+					Comparable c1 = (Comparable) o1.getCells().get(sortKey.toUpperCase());
+					Comparable c2 = (Comparable) o2.getCells().get(sortKey.toUpperCase());
+					return c1.compareTo(c2);
+				}
+			});
+
+			if (sortDir.equals("desc")) {
+				Collections.reverse(cellsList);
+			}
+		}
+
+		List<{{modelClassName}}> result = new ArrayList<>();
+		for (Record r : cellsList) {
+			result.add({{modelClassName}}.getFromDb(r));
+		}
+
+		return result;
+	}
+
+	@Override
+	public TableCounts count({{modelClassName}} templateInstance) throws Exception {
+		return new TableCounts(RESULTS_COUNT, RESULTS_COUNT);
+	}
+
+	@Override
+	public boolean add({{modelClassName}} instance) throws Exception {
+		return false;
+	}
+
+	@Override
+	public {{modelClassName}} edit({{modelClassName}} instance) throws Exception {
+		return null;
+	}
+
+	@Override
+	public {{modelClassName}} get(String id) throws Exception {
+		return null;
+	}
+
+	@Override
+	public boolean delete(String id) throws Exception {
+		return false;
+	}
+
+}

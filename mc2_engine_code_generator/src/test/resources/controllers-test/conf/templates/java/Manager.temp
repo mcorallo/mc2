@@ -1,0 +1,51 @@
+package {{managerPackageName}};
+
+import java.util.List;
+
+import it.mcsquared.engine.web.controller.data.annotation.RecordsProvider;
+import it.mcsquared.engine.web.controller.data.annotation.TableProvider;
+import it.mcsquared.engine.web.controller.data.table.TableCounts;
+import it.mcsquared.engine.web.controller.data.table.TableDataProvider;
+import it.mcsquared.engine.web.controller.data.table.TableRecords;
+import {{adapterPackageName}}.Adapters;
+import {{adapterPackageName}}.{{modelClassName}}Adapter;
+import {{modelPackageName}}.{{modelClassName}};
+
+@TableProvider
+public class {{modelClassName}}Manager extends TableDataProvider {
+
+	private {{modelClassName}}Adapter adapter = Adapters.newAdapter({{modelClassName}}Adapter.class);
+
+	@RecordsProvider(command = "{{tableName}}.search", requestParameters = {"templateInstance"})
+	public TableRecords<{{modelClassName}}> searchRequests({{modelClassName}} templateInstance) throws Exception {
+		TableRecords<{{modelClassName}}> tr = new TableRecords<>();
+
+		List<{{modelClassName}}> search = adapter.search(templateInstance, tableDataRequest);
+		TableCounts counts = adapter.count(templateInstance);
+
+		tr.setRecords(search);
+		counts.setTotFiltered(counts.getTotFiltered());
+		tr.setCounts(counts);
+
+		return tr;
+	}
+
+	public boolean add({{modelClassName}} instance) throws Exception {
+		return adapter.add(instance);
+	}
+
+	public {{modelClassName}} get(String id) throws Exception {
+		return adapter.get(id);
+	}
+
+	public {{modelClassName}} edit({{modelClassName}} instance) throws Exception {
+		return adapter.edit(instance);
+	}
+
+	public boolean delete(String id) throws Exception {
+		return adapter.delete(id);
+	}
+
+}
+
+

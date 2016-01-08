@@ -1,21 +1,17 @@
 package it.mcsquared.engine.manager;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import it.mcsquared.engine.EngineTest;
 
-import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
 import org.junit.Test;
 
-import it.mcsquared.engine.Mc2Engine;
-import it.mcsquared.engine.test.GenericTest;
-
-public class LabelsManagerTest extends GenericTest {
-	private Mc2Engine engine = getEngine();
+public class LabelsManagerTest extends EngineTest {
 
 	@Test
 	public void getLabelTest() throws Exception {
-		LabelsManager labelsManager = engine.newLabelsManager();
+		LabelsManager labelsManager = engine.getLabelsManager();
 		String label;
 
 		//default locale not found test
@@ -55,7 +51,7 @@ public class LabelsManagerTest extends GenericTest {
 
 	@Test
 	public void getLabelFormattedTest() throws Exception {
-		LabelsManager labelsManager = engine.newLabelsManager();
+		LabelsManager labelsManager = engine.getLabelsManager();
 		labelsManager.setDefaultLocale();
 		String label;
 
@@ -69,17 +65,12 @@ public class LabelsManagerTest extends GenericTest {
 
 		//formatted decimal test
 		label = labelsManager.getLabelFormatted("test.formatted.decimal", 100d);
-
-		String c = System.getProperty("user.country");
-		String l = System.getProperty("user.language");
-		char decimalSeparator = new DecimalFormatSymbols(Locale.forLanguageTag(l + "-" + c)).getDecimalSeparator();
-
-		assertEquals("test 100" + decimalSeparator + "000000", label);
+		assertEquals("test 100.000000", label);
 	}
 
 	@Test
 	public void getHtmlTest() throws Exception {
-		LabelsManager labelsManager = engine.newLabelsManager();
+		LabelsManager labelsManager = engine.getLabelsManager();
 		labelsManager.setDefaultLocale();
 		String label;
 
@@ -90,7 +81,7 @@ public class LabelsManagerTest extends GenericTest {
 
 	@Test
 	public void getLabelValuesTest() throws Exception {
-		LabelsManager labelsManager = engine.newLabelsManager();
+		LabelsManager labelsManager = engine.getLabelsManager();
 		labelsManager.setDefaultLocale();
 		String[] labels;
 

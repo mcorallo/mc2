@@ -1,5 +1,12 @@
 package it.mcsquared.engine.manager.database.dao;
 
+import it.mcsquared.engine.manager.DBManager;
+import it.mcsquared.engine.manager.database.QueryBuilder;
+import it.mcsquared.engine.manager.database.QueryHelper;
+import it.mcsquared.engine.manager.database.Record;
+import it.mcsquared.engine.manager.database.annotation.Column;
+import it.mcsquared.engine.manager.database.annotation.Table;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
@@ -10,30 +17,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import it.mcsquared.engine.manager.DBManager;
-import it.mcsquared.engine.manager.database.QueryBuilder;
-import it.mcsquared.engine.manager.database.QueryHelper;
-import it.mcsquared.engine.manager.database.Record;
-import it.mcsquared.engine.manager.database.annotation.Column;
-import it.mcsquared.engine.manager.database.annotation.Table;
-
-public abstract class GenericDAO {
+public class GenericDAO {
 
 	private static final Logger logger = LoggerFactory.getLogger(GenericDAO.class);
-	private static DBManager dbManager;
+	private DBManager dbManager;
 	private String defaultDb;
 
-	public static void init(DBManager dbManager) {
-		GenericDAO.dbManager = dbManager;
-	}
-
-	public GenericDAO(String db) throws SQLException {
+	public GenericDAO(String db) {
 		this.defaultDb = db;
-		getQueryHelper();//just a test to check the db name
 	}
 
 	protected QueryHelper getQueryHelper() throws SQLException {
@@ -77,7 +71,7 @@ public abstract class GenericDAO {
 				ts.add(t);
 			}
 			return ts;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			logger.error("", e);
 			return null;
 		}
@@ -103,7 +97,7 @@ public abstract class GenericDAO {
 	private Map<Class<?>, Map<String, Boolean>> fieldLikes = new ConcurrentHashMap<Class<?>, Map<String, Boolean>>();
 
 	@SuppressWarnings("unchecked")
-	public <T> List<T> selectRecords(Class<?> modelClass, Integer start, Integer length, Map<String, String> filters) throws Exception {
+	public <T> List<T> selectRecords(Class<?> modelClass, Integer start, Integer length, Map<String, String> filters) throws Throwable {
 		if ((start != null && length == null) || (start == null && length != null)) {
 			throw new IllegalArgumentException("start and length parameters not correctly set");
 		}
@@ -141,20 +135,12 @@ public abstract class GenericDAO {
 			}
 		}
 
-		QueryHelper qh = getQueryHelper();
 		if (start != null) {
-			String dialect = qh.getDialect();
-			if (StringUtils.isBlank(dialect) || dialect.equals("mysql")) {
-				qb.addToken("limit").addToken(length.toString());
-				qb.addToken("offset").addToken(start.toString());
-			} else if (dialect.equals("derby")) {
-				qb.addToken("{");
-				qb.addToken("limit").addToken(length.toString());
-				qb.addToken("offset").addToken(start.toString());
-				qb.addToken("}");
-			}
+			qb.addToken("limit").addToken(length.toString());
+			qb.addToken("offset").addToken(start.toString());
 		}
 
+		QueryHelper qh = getQueryHelper();
 		List<Record> rs = qh.selectRecords(qb, params);
 		List<T> result = new ArrayList<T>();
 		Method getFromRecordMethod = modelClass.getDeclaredMethod("getFromDb", Record.class);
@@ -165,17 +151,16 @@ public abstract class GenericDAO {
 		return result;
 	}
 
-	public long getTotRecords(Class<?> modelClass) throws Exception {
+	public long getTotRecords(Class<?> modelClass) throws Throwable {
 		QueryBuilder qb = new QueryBuilder();
 		qb.addToken("select count(*) tot from").addToken(modelClass.getAnnotation(Table.class).name());
 
 		QueryHelper qh = getQueryHelper();
 		Record r = qh.selectSingleRecord(qb);
-		Number n = r.getValue("TOT");//needed to allow cross database compliance
-		return n.longValue();
+		return r.getValue("TOT");
 	}
 
-	public long getFilteredRecords(Class<?> modelClass, Map<String, String> filters) throws Exception {
+	public long getFilteredRecords(Class<?> modelClass, Map<String, String> filters) throws Throwable {
 		QueryBuilder qb = new QueryBuilder();
 		qb.addToken("select count(*) tot from").addToken(modelClass.getAnnotation(Table.class).name());
 		List<Object> params = new ArrayList<Object>();
@@ -211,7 +196,6 @@ public abstract class GenericDAO {
 
 		QueryHelper qh = getQueryHelper();
 		Record r = qh.selectSingleRecord(qb, params);
-		Number n = r.getValue("TOT");//needed to allow cross database compliance
-		return n.longValue();
+		return r.getValue("TOT");
 	}
 }

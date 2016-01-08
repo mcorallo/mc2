@@ -1,0 +1,17 @@
+items:
+- section: client
+  label: rest.client
+  page: client/list
+  sections:
+  - section: client
+    label: rest.client
+    page: client/list
+    actions:
+    - action: list
+      section: client
+      label: list
+      page: client/list
+    - action: new
+      section: client
+      label: new
+      page: client/new

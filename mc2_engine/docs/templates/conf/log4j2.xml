@@ -3,8 +3,8 @@
 <Configuration>
 	<Appenders>
 		<Console name="STDOUT" target="SYSTEM_OUT">
-			<PatternLayout pattern="%d|%p|%t|%c|%L|%m\n" />
-		</Console>
+			<PatternLayout pattern="%d (%F:%L) - %p  - %m\n" />
+		</Console> 
 
 	</Appenders>
 	<Loggers>

@@ -1,0 +1,76 @@
+<h3 class="content-title" class="content-title">##@_labels.[{{tableName}}.list]@##</h3>
+
+<form id="{{tableName}}-form" class="form-horizontal well">
+	<fieldset>
+
+		{{#listSearchFields}}
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="{{name}}">##@_labels.[{{label}}]@##</label>
+			<div class="col-sm-9">{{{content}}}</div>
+		</div>
+		{{/listSearchFields}}
+
+	</fieldset>
+
+	<div class="form-group">
+		<div class="col-sm-offset-3 col-sm-9">
+			<button id="btn-search" class="btn btn-primary">##@_labels.[search]@##</button>
+		</div>
+	</div>
+
+</form>
+
+<table id="{{tableName}}-list"
+	class="table table-striped table-bordered table-hover table-responsive">
+	<thead>
+		<tr>
+			{{#listColumns}}
+			<th class="">##@_labels.[{{label}}]@##</th> {{/listColumns}}
+			{{#listHiddenColumns}}
+			<!-- <th class="">##@_labels.[{{label}}]@##</th> -->
+			{{/listHiddenColumns}}
+			<th class="">##@_labels.[actions]@##</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			{{#listColumns}}
+			<td class="" x-data="{{name}}" x-sort="{{name}}">%cellValue</td>
+			{{/listColumns}} {{#listHiddenColumns}}
+			<!-- <td class="" x-data="{{name}}" x-sort="{{name}}">%cellValue</td> -->
+			{{/listHiddenColumns}}
+			<td class="text-center" x-data="id"><span
+				class="glyphicon glyphicon-cog actions-popover" x-id="%cellValue"></span>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+
+
+<script>
+	$(function() {
+		var formTable = mc2Engine.table.setFormTable({
+			tableId : '{{tableName}}-list',
+			command : '{{tableName}}.search',
+			dataFormId : '{{tableName}}-form',
+			filter : false,
+			paginate : true,
+			serverSide : true,
+			triggerId : 'btn-search',
+			actions : {
+				delete : {
+					command : '{{tableName}}.delete',
+					message : '{{tableName}}.delete.success'
+				},
+				edit : {
+					page : '{{tableName}}/edit'
+				},
+				detail : {
+					page : '{{tableName}}/detail'
+				}
+			}
+		});
+
+	});
+</script>

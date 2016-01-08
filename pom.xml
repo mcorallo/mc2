@@ -9,17 +9,16 @@
 		<module>mc2_engine_test</module>
 
 		<module>mc2_engine</module>
-	</modules>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>1.7.7</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+		<module>mc2_engine_web</module><!-- engine -->
+		<module>mc2_engine_security</module><!-- engine -->
+		<module>mc2_engine_rest_client</module><!-- engine -->
+
+		<module>mc2_engine_rest_server</module><!-- web + security -->
+
+		<module>mc2_engine_auth_server</module><!-- rest server -->
+		<module>mc2_engine_code_generator</module>
+	</modules>
 
 	<build>
 		<plugins>
@@ -28,8 +27,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.3</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 
@@ -42,35 +41,6 @@
 						<parent.target.dir>${project.build.directory}</parent.target.dir>
 					</systemPropertyVariables>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.5.201505241946</version>
-				<executions>
-					<execution>
-						<id>pre-unit-test</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-						<configuration>
-							<destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
-							<propertyName>surefireArgLine</propertyName>
-						</configuration>
-					</execution>
-					<execution>
-						<id>post-unit-test</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-						<configuration>
-							<dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
-							<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

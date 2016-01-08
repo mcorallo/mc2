@@ -1,15 +1,11 @@
 package it.mcsquared.engine.manager;
 
 import static org.junit.Assert.*;
+import it.mcsquared.engine.EngineTest;
 
 import org.junit.Test;
 
-import it.mcsquared.engine.Mc2Engine;
-import it.mcsquared.engine.test.GenericTest;
-
-public class PropertiesHandlerTest extends GenericTest {
-	private Mc2Engine engine = getEngine();
-
+public class PropertiesHandlerTest extends EngineTest {
 	@Test
 	public void checkUnresolvedTest() throws Exception {
 		PropertiesHandler propertiesHandler = new PropertiesHandler(engine.getConfigurationManager().getFileInputStream("system.properties"));

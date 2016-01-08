@@ -1,0 +1,28 @@
+package {{daoPackageName}};
+
+import java.sql.SQLException;
+import java.util.List;
+
+import it.mcsquared.engine.web.controller.data.table.TableDataRequest;
+import it.mcsquared.engine.manager.database.dao.GenericDAO;
+
+import {{modelPackageName}}.{{modelClassName}};
+
+public class {{modelClassName}}DAO extends GenericDAO {
+
+	public {{modelClassName}}DAO(String db) throws SQLException {
+		super(db);
+	}
+
+	public List<{{modelClassName}}> list(TableDataRequest tableDataRequest) throws Exception {
+		return super.selectRecords({{modelClassName}}.class, tableDataRequest.getStart(), tableDataRequest.getLength(), tableDataRequest.getFilters());
+	}
+
+	public long getTotRecords() throws Exception {
+		return super.getTotRecords({{modelClassName}}.class);
+	}
+
+	public long getFilteredRecords(TableDataRequest tableDataRequest) throws Exception {
+		return super.getFilteredRecords({{modelClassName}}.class, tableDataRequest.getFilters());
+	}
+}

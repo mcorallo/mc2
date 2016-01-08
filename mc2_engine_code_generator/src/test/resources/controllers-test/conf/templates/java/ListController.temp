@@ -1,0 +1,27 @@
+package {{controllerPackageName}}.{{tableName}};
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import it.mcsquared.engine.web.controller.AjaxResult;
+import it.mcsquared.engine.web.controller.GenericController;
+
+import {{managerPackageName}}.{{modelClassName}}Manager;
+
+public class ListController extends GenericController {
+	private static final Logger logger = LoggerFactory.getLogger(ListController.class);
+
+	private {{modelClassName}}Manager manager = new {{modelClassName}}Manager();
+
+	@Override
+	protected AjaxResult processAjaxRequest(String command, HttpServletRequest req) throws Exception {
+		if ("{{tableName}}.delete".equals(command)) {
+			String id = req.getParameter("id");
+			manager.delete(id);
+			return getSuccessResult();
+		}
+		return null;
+	}
+}

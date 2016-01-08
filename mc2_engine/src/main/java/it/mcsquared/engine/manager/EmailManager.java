@@ -1,5 +1,8 @@
 package it.mcsquared.engine.manager;
 
+import it.mcsquared.engine.Mc2Engine;
+import it.mcsquared.engine.manager.email.Email;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -22,9 +25,6 @@ import javax.mail.internet.MimeMultipart;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import it.mcsquared.engine.Mc2Engine;
-import it.mcsquared.engine.manager.email.Email;
 
 /**
  * 
@@ -108,7 +108,7 @@ public class EmailManager {
 				logger.info("Sent email: " + subject + ", to " + Arrays.toString(tos));
 			}
 			return sent;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			logger.error("", e);
 			return false;
 		}
@@ -138,8 +138,7 @@ public class EmailManager {
 				"mail.smtp.auth",
 				"mail.user",
 				"mail.password",
-				"mail.smtp.port"
-		};
+				"mail.smtp.port" };
 		for (String k : keys) {
 			String property = engine.getSystemProperty(k);
 			if (property == null) {
